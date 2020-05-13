@@ -7,7 +7,6 @@
 #include <iostream>
 #include <sstream>
 #include <iterator>
-
 using namespace std;
 #define watch(x) cout << (#x) << " is " << (x) << endl;
 
@@ -30,9 +29,6 @@ private:
 
 public:
 
-
-    ~HrmlTree();
-
     void openBlock(string);
     void closeBlock();
     void destroyRecursive(Node*);
@@ -42,5 +38,6 @@ public:
     Node* traverseRecursive(Node*,string);
     bool checkRelation(string, string);
     HrmlTree();
+    ~HrmlTree();
 };
 #endif

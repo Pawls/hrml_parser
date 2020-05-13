@@ -32,7 +32,6 @@ void HrmlTree::closeBlock() {
         current_node = current_node->parent;
 }
 
-
 void HrmlTree::addAttribute(string att, string val) {
     current_node->att_val[att] = val;
 }
@@ -201,6 +200,11 @@ void HrmlTree::parseInput(string input_string) {
                             //getline(ss, flush, '\n');
                             break;
                         }
+                    }
+                    else {
+                        cout << "Not Found!\n";
+                        innermost_node = nullptr;
+                        break;
                     }
                     //innermost_node = traverseRecursive(nullptr, str_parent);
                     //break;
