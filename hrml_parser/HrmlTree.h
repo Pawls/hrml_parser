@@ -7,7 +7,6 @@
 #include <iostream>
 #include <sstream>
 #include <iterator>
-//#include <stack>
 
 using namespace std;
 #define watch(x) cout << (#x) << " is " << (x) << endl;

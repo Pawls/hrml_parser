@@ -17,12 +17,13 @@ void HrmlTree::openBlock(string tag_name) {
     temp->name = tag_name;
 
 
-    if (root == nullptr) // If this is the first block, it becomes permanently open
+    if (root == nullptr)
         root = temp;
-    else {
+    else
         temp->parent = current_node;
+
+    if (current_node != nullptr)
         current_node->child.push_back(temp);
-    }
     current_node = temp;
 }
 
@@ -30,6 +31,7 @@ void HrmlTree::closeBlock() {
     if (current_node != root)
         current_node = current_node->parent;
 }
+
 
 void HrmlTree::addAttribute(string att, string val) {
     current_node->att_val[att] = val;
@@ -52,11 +54,15 @@ HrmlTree::Node* HrmlTree::traverseRecursive(Node* this_node, string tag_name) {
     if (this_node == nullptr)
         this_node = root;
 
-    if (this_node->name == tag_name)
+    if (this_node->name == tag_name) {
         output_node = this_node;
+    }
     else {
-        for (int i = 0; i < this_node->child.size(); i++)
+        for (int i = 0; i < this_node->child.size(); i++) {
             output_node = traverseRecursive(this_node->child[i], tag_name);
+            if (output_node != nullptr)
+                break;
+        }
     }
     return output_node;
 }
@@ -64,10 +70,13 @@ HrmlTree::Node* HrmlTree::traverseRecursive(Node* this_node, string tag_name) {
 bool HrmlTree::checkRelation(string parent_name, string child_name) {
     Node* node_ptr;
     node_ptr = traverseRecursive(nullptr, parent_name);
-    if (node_ptr != nullptr)
-        for (int i = 0; i < node_ptr->child.size(); i++)
-            if (node_ptr->child[i]->name == child_name)
+    if (node_ptr != nullptr) {
+        for (int i = 0; i < node_ptr->child.size(); i++) {
+            if (node_ptr->child[i]->name == child_name) {
                 return true;
+            }
+        }
+    }
     return false;
 }
 
@@ -121,7 +130,7 @@ void HrmlTree::parseInput(string input_string) {
     
     // Parse the queries
     string str_parent, str_child;
-    bool no_children,found;
+    bool no_children;
     Node* innermost_node;
     for (int i = 0; i < q; i++) { // Process each query
         innermost_node = nullptr;
@@ -129,9 +138,7 @@ void HrmlTree::parseInput(string input_string) {
         str_parent = "";
         str_child = "";
         no_children = true;
-        found = false;
         while (ss >> ch) {
-
             if (ch != '.' && ch != '~') { // reading either parent or child
                 if (no_children == true)
                     str_parent += ch;
